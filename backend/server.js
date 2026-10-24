@@ -6,16 +6,17 @@ import pool from "./config/database.js";
 import authRoutes from "./routes/auth.routes.js";
 
 dotenv.config();
-const app = express();
-const PORT = process.env.PORT || 5000;
 
-if (!process.env.JWT_SECRET || !process.env.DB_NAME) {
-  throw new Error("Missing required environment variables.");
-}
+const app = express();
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL,
+].filter(Boolean);
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -31,19 +32,4 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 
-async function startServer() {
-  try {
-    await pool.query("SELECT 1");
-
-    console.log("MySQL connected successfully.");
-
-    app.listen(PORT, () => {
-      console.log(`Backend running at http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error("Failed to connect to MySQL:", error.message);
-    process.exit(1);
-  }
-}
-
-startServer();
+export default app;
