@@ -1,5 +1,4 @@
-const API_URL =
-  "https://react-programs-79sn600m3-neha-6bf0.vercel.app/api/auth";
+const API_URL = "/api/auth";
 
 async function request(endpoint, options = {}) {
     const response = await fetch(`${API_URL}${endpoint}`, {
