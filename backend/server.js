@@ -33,10 +33,9 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 
-// Local development
 if (
-  process.env.NODE_ENV !== "production" &&
-  process.env.NETLIFY !== "true"
+  !process.env.NETLIFY &&
+  process.env.NODE_ENV !== "production"
 ) {
   const startServer = async () => {
     try {
