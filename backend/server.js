@@ -32,7 +32,10 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-
+console.log("Runtime environment:", {
+  NODE_ENV: process.env.NODE_ENV,
+  NETLIFY: process.env.NETLIFY,
+});
 if (
   !process.env.NETLIFY &&
   process.env.NODE_ENV !== "production"
