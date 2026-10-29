@@ -1,6 +1,4 @@
 import "dotenv/config";
-import path from "path";
-import { fileURLToPath } from "url";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -46,11 +44,13 @@ app.use((err, req, res, next) => {
 
 // Start the server only when run directly (npm run dev / npm start),
 // not when imported by the Netlify function.
-const isDirectExecution =
-  process.argv[1] &&
-  fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+// Start the server only when running locally (npm run dev / npm start),
+// not inside the Netlify function.
+const isServerless = Boolean(
+  process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NETLIFY
+);
 
-if (isDirectExecution) {
+if (!isServerless) {
   const startServer = async () => {
     try {
       await pool.query("SELECT 1");
