@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import pool from "../config/database.js";
 import generateToken from "../utils/generateToken.js";
 import { OAuth2Client } from "google-auth-library";
